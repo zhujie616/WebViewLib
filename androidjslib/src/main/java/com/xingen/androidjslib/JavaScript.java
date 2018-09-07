@@ -5,6 +5,7 @@ import android.webkit.WebView;
 import com.xingen.androidjslib.event.ClickEvent;
 import com.xingen.androidjslib.event.Event;
 import com.xingen.androidjslib.event.InputEvent;
+import com.xingen.androidjslib.event.ScrollEvent;
 import com.xingen.androidjslib.execute.MainExecutor;
 import com.xingen.androidjslib.injection.JSBehavior;
 import com.xingen.androidjslib.injection.JSInjection;
@@ -35,6 +36,7 @@ public class JavaScript {
     private static int getSequenceNumber() {
         return mSequenceGenerator.incrementAndGet();
     }
+
     /**
      * 在WebView中执行事件
      *
@@ -54,14 +56,14 @@ public class JavaScript {
             public void run() {
                 switch (event.eventType) {
                     case Event.TYPE_CLICK: {
-                         ClickEvent clickEvent=(ClickEvent) event;
-                         webView.loadUrl(JSInjection.collectScreenInfoJS());
-                         webView.loadUrl(JSInjection.findIndexElementAreaJS(clickEvent.sequence,clickEvent.elementName,0));
+                        ClickEvent clickEvent = (ClickEvent) event;
+                        webView.loadUrl(JSInjection.collectScreenInfoJS());
+                        webView.loadUrl(JSInjection.findIndexElementAreaJS(clickEvent.sequence, clickEvent.elementName, 0));
                     }
                     break;
                     case Event.TYPE_INPUT: {
                         InputEvent inputEvent = (InputEvent) event;
-                        webView.loadUrl(JSInjection.inputValueJS(inputEvent.sequence,inputEvent.elementName, inputEvent.value));
+                        webView.loadUrl(JSInjection.inputValueJS(inputEvent.sequence, inputEvent.elementName, inputEvent.value));
                     }
                     break;
                     case Event.TYPE_SCROLL: {
@@ -138,7 +140,7 @@ public class JavaScript {
                         @Override
                         public void run() {
                             if (clickEvent.getView() != null) {
-                                JSBehavior.handlerClickEvent(clickEvent.getView(), JSBehavior.conversionPoints(top, left, width, height, sScreenInnerHeight, sScreenInnerWidth, clickEvent.getView()));
+                                JSBehavior.handlerClickEvent(clickEvent.getView(), JSBehavior.conversionClickPoints(top, left, width, height, sScreenInnerHeight, sScreenInnerWidth, clickEvent.getView()));
                                 clickEvent.listener.clickSuccess(clickEvent);
                             } else {
                                 clickEvent.listener.clickFailure(clickEvent);
@@ -158,31 +160,58 @@ public class JavaScript {
         }
 
         @Override
-        public void doScrollBehavior(int sequence, int result) {
-            Event event = findEventAndRelease(sequence);
+        public void doScrollBehavior(int sequence, int result, final int start_x, final int start_y, final int end_x, final int end_y, final int windowWidth, final int windowHeight) {
+            final Event event = findEventAndRelease(sequence);
             if (event == null || event.eventType != Event.TYPE_SCROLL) {
                 return;
             }
-
+            final ScrollEvent scrollEvent = (ScrollEvent) event;
+            if (scrollEvent.listener == null) {
+                return;
+            }
+            switch (result) {
+                case Response.BEHAVIOR_SUCCESS:
+                    mainExecutor.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (scrollEvent.getView()==null){
+                                 scrollEvent.listener.scrollFailure(scrollEvent);
+                            }else{
+                                JSBehavior.handlerScrollEvent(scrollEvent,JSBehavior.conversionScrollPoints(start_x,start_y,end_x,end_y,windowHeight,windowWidth,scrollEvent.getView()));
+                            }
+                        }
+                    });
+                    break;
+                case Response.BEHAVIOR_FAILURE:
+                    mainExecutor.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            scrollEvent.listener.scrollFailure(scrollEvent);
+                        }
+                    });
+                    break;
+            }
         }
     };
 
     public final static class JavaScriptBuilder {
         /**
          * 执行js事件
+         *
          * @param event
          * @param webView
          */
-        public static  void executeEvent(Event event, WebView webView) {
+        public static void executeEvent(Event event, WebView webView) {
             JavaScript.executeEvent(event, webView);
         }
         /**
          * 是否开启日志
          * 添加javascript对象
+         *
          * @param webView
          * @param hasLog
          */
-        public  static void init(WebView webView,boolean hasLog) {
+        public static void init(WebView webView, boolean hasLog) {
             if (webView == null) return;
             LogUtils.init(hasLog);
             //添加JS交互对象
