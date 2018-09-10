@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.SslErrorHandler;
@@ -13,6 +14,9 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.xingen.androidjslib.JavaScript;
+import com.xingen.androidjslib.event.Event;
+import com.xingen.androidjslib.event.ScrollEvent;
+import com.xingen.androidjslib.listener.Response;
 import com.xingen.androidjslib.utils.LogUtils;
 
 /**
@@ -21,15 +25,18 @@ import com.xingen.androidjslib.utils.LogUtils;
  */
 public class ScrollTestActivity extends AppCompatActivity {
     private WebView webView;
+    private static final String TAG = ScrollTestActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        webView=new WebView(this);
+        webView = new WebView(this);
         setWebViewConfig();
         setContentView(webView);
         webView.loadUrl("https://blog.csdn.net/hexingen");
     }
+
+    private boolean isFirst = true;
 
     private void setWebViewConfig() {
         WebSettings webSetting = webView.getSettings();
@@ -78,7 +85,11 @@ public class ScrollTestActivity extends AppCompatActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-
+                if (isFirst) {
+                    isFirst = false;
+                    doScroll("\"ul.colu_author_c>li\"",8,1000);
+                    doScroll("\"ul.colu_author_c>li\"",0,5000);
+                }
             }
         });
         webView.setOnTouchListener(new View.OnTouchListener() {
@@ -89,4 +100,25 @@ public class ScrollTestActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    public void doScroll(String elementName, int index,int delayTime) {
+        ScrollEvent scrollEvent = Event.create(Event.TYPE_SCROLL).setElementName(elementName).setDelayTime(delayTime);
+        scrollEvent
+                .setPosition(index)
+                .setScrollTime(2000)
+                .setListener(new Response.ScrollListener() {
+                    @Override
+                    public void scrollEnd(ScrollEvent scrollEvent) {
+                        Log.i(TAG, " 滚动事件结束 ");
+                    }
+
+                    @Override
+                    public void scrollFailure(ScrollEvent scrollEvent) {
+                        Log.i(TAG, " 滚动事件失败 ");
+                    }
+                });
+        JavaScript.JavaScriptBuilder.executeEvent(scrollEvent, webView);
+    }
+
 }

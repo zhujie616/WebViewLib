@@ -46,7 +46,7 @@ public class JSBehavior {
      */
     @JavascriptInterface
     public void setInnerScreenInfo(int screenWidth, int screenHeight) {
-        //  LogUtils.i("set web inner screen width " + screenWidth + " screen height " + screenHeight);
+          LogUtils.i("set web inner screen width " + screenWidth + " screen height " + screenHeight);
         sScreenInnerWidth = screenWidth;
         sScreenInnerHeight = screenHeight;
     }
@@ -61,17 +61,20 @@ public class JSBehavior {
 
     /**
      * 获取到元素在页面上的区域
-     *
+     * @param sequence
+     * @param result
      * @param top
      * @param left
      * @param width
      * @param height
+     * @param windowWidth
+     * @param windowHeight
      */
     @JavascriptInterface
-    public void clickArea(int sequence, int result, int top, int left, int width, int height) {
-        LogUtils.i(" 获取到点击区域 " + top + " " + left + " " + width + " " + height);
+    public void clickArea(int sequence, int result, int top, int left, int width, int height,int windowWidth,int windowHeight) {
+        LogUtils.i(" 获取到点击区域 " + top + " " + left + " " + width + " " + height+" "+windowWidth+" "+windowHeight);
         if (callBack != null) {
-            callBack.doClickBehavior(sequence, result, top, left, width, height, sScreenInnerWidth, sScreenInnerHeight);
+            callBack.doClickBehavior(sequence, result, top, left, width, height, windowWidth, windowHeight);
         }
     }
 

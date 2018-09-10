@@ -7,5 +7,22 @@
     tools:context=".MainActivity">
 
 
+    <Button
+        android:id="@+id/main_test_input_click_btn"
+        android:layout_width="wrap_content"
+        android:text="测试js自动输入和点击"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/main_test_scroll_btn"
+
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/main_test_scroll_btn"
+        android:layout_width="wrap_content"
+        android:text="测试js自动滚动"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_test_input_click_btn"
+        android:layout_height="wrap_content" />
 
 </android.support.constraint.ConstraintLayout>

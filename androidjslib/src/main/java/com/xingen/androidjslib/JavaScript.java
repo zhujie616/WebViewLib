@@ -58,7 +58,9 @@ public class JavaScript {
                     case Event.TYPE_CLICK: {
                         ClickEvent clickEvent = (ClickEvent) event;
                         webView.loadUrl(JSInjection.collectScreenInfoJS());
-                        webView.loadUrl(JSInjection.findIndexElementAreaJS(clickEvent.sequence, clickEvent.elementName, 0));
+                        String js=JSInjection.findIndexElementAreaJS(clickEvent.sequence, clickEvent.elementName, 0);
+                        webView.loadUrl(js);
+                        LogUtils.i(js);
                     }
                     break;
                     case Event.TYPE_INPUT: {
@@ -67,7 +69,8 @@ public class JavaScript {
                     }
                     break;
                     case Event.TYPE_SCROLL: {
-
+                           ScrollEvent scrollEvent=(ScrollEvent) event;
+                           webView.loadUrl(JSInjection.scrollElementJS(scrollEvent.sequence,scrollEvent.elementName,scrollEvent.position));
                     }
                     break;
                 }

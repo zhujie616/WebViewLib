@@ -12,8 +12,14 @@ public class ScrollEvent extends  Event{
      */
     public int scrollTime;
 
+    public int position;
+
     public Response.ScrollListener listener;
 
+    public ScrollEvent setPosition(int position) {
+        this.position = position;
+        return this;
+    }
 
     public ScrollEvent setListener(Response.ScrollListener listener) {
         this.listener = listener;
