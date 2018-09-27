@@ -18,7 +18,6 @@ public class MainExecutor implements Executor {
             handler.post(command);
         }
     }
-
     public void delayTimeExecute(Runnable command,int delayTime){
         if (command!=null){
             handler.postDelayed(command,delayTime);

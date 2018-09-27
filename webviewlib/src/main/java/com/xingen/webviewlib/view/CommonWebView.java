@@ -3,6 +3,7 @@ package com.xingen.webviewlib.view;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
@@ -11,6 +12,7 @@ import android.webkit.WebView;
  * Date on 2018/8/8 13:43
  */
 public class CommonWebView extends WebView {
+    private static final String TAG="CommonWebView";
     public CommonWebView(Context context) {
         super(context);
         initDefaultConfig();
@@ -39,7 +41,8 @@ public class CommonWebView extends WebView {
         }
     }
 
-
-
-
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return super.onTouchEvent(event);
+    }
 }
