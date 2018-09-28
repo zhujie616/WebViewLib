@@ -1,1 +1,1 @@
-include ':app', ':webviewlib', ':androidjslib'
+include ':app', ':webviewlib', ':androidjslib', ':WebViewManager'

@@ -1,4 +1,4 @@
-package com.xingen.webviewlib;
+package com.xingen.webviewmanager;
 
 import android.content.Context;
 import android.content.pm.ActivityInfo;
@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
  * Created by ${新根} on 2018/9/27.
  * blog博客:http://blog.csdn.net/hexingen
  * <p>
- * 统一管理WebView,采用1px的技术
+ * 统一管理WebView,采用1px的技术,借鉴360悬浮窗口，脱离Activity加载
  */
 
 public class WebViewManager {
