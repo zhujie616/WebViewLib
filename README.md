@@ -17,4 +17,6 @@ PS: JS库和WebViewManager库已经在老东家的暗地刷量项目(九点广�
 
 1. 探究如何模拟用户点击webview:
 
-![image(https://github.com/13767004362/WebViewLib/blob/master/picture/webview%E6%A8%A1%E6%8B%9F%E7%94%A8%E6%88%B7%E7%82%B9%E5%87%BB%E5%88%86%E6%9E%90.png)
+![image](https://github.com/13767004362/WebViewLib/blob/master/picture/webview%E6%A8%A1%E6%8B%9F%E7%94%A8%E6%88%B7%E7%82%B9%E5%87%BB%E5%88%86%E6%9E%90.png)
+
+
