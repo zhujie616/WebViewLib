@@ -25,3 +25,5 @@ PS: JS库和WebViewManager库已经在老东家的暗地刷量项目(九点广�
 ![image](https://github.com/13767004362/WebViewLib/blob/master/picture/WebView%E9%A1%B5%E9%9D%A2%E4%B8%AD%E5%85%83%E7%B4%A0%E4%B8%8D%E5%90%8C%E6%83%85%E5%86%B5%E5%A4%84%E7%90%86.png)
 
 可能处于屏幕中，也有可能处理屏幕外，上端或者下端，因此需要针对性处理，处于屏幕中才能，精确点击到元素。
+
+3.处理WebView悬浮窗，脱离Activity，1px显示：
