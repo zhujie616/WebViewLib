@@ -27,3 +27,6 @@ PS: JS库和WebViewManager库已经在老东家的暗地刷量项目(九点广�
 可能处于屏幕中，也有可能处理屏幕外，上端或者下端，因此需要针对性处理，处于屏幕中才能，精确点击到元素。
 
 3.处理WebView悬浮窗，脱离Activity，1px显示：
+
+![image](https://github.com/13767004362/WebViewLib/blob/master/picture/WebView%E8%84%B1%E7%A6%BBActivity%E8%BF%9B%E8%A1%8C%E5%8A%A0%E8%BD%BD%20(1).png)
+可能存在多个广告项目，因此采用并行方式，多个webview同步加载不同任务。
