@@ -50,7 +50,8 @@ PS: JS库和WebViewManager库已经在老东家的暗地刷量项目(九点广�
 例如：百度网页输入框，输入`新根`
 
 通过浏览器获取到元素的css选择器：
-![image](https://note.youdao.com/favicon.ico)
+
+![image](https://github.com/13767004362/WebViewLib/blob/master/picture/%E8%BE%93%E5%85%A5%E6%A1%86.png)
 
 ```
         String elementName = "\"input.se-input\"";
@@ -78,7 +79,7 @@ PS: JS库和WebViewManager库已经在老东家的暗地刷量项目(九点广�
 
 通过浏览器获取到元素的css选择器：
 
-![image](https://note.youdao.com/favicon.ico)
+![image](https://github.com/13767004362/WebViewLib/blob/master/picture/%E7%82%B9%E5%87%BB%E6%8C%89%E9%92%AE.png)
 
 点击百度一下的按钮，进行搜索操作。
 ```
@@ -109,7 +110,7 @@ PS: JS库和WebViewManager库已经在老东家的暗地刷量项目(九点广�
 
 通过浏览器获取到元素的css选择器：
 
-![image](https://note.youdao.com/favicon.ico)
+![image](https://github.com/13767004362/WebViewLib/blob/master/picture/%E6%BB%9A%E5%8A%A8%E5%88%97%E8%A1%A8.png)
 
 
 这里滚动到我的个人博客列表中，第九个角标位置。
