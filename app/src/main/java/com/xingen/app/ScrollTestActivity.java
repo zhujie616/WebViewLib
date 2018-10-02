@@ -87,8 +87,8 @@ public class ScrollTestActivity extends AppCompatActivity {
                 super.onPageFinished(view, url);
                 if (isFirst) {
                     isFirst = false;
-                    doScroll("\"ul.colu_author_c>li\"",8,1000);
-                    doScroll("\"ul.colu_author_c>li\"",0,5000);
+                    doScroll("\"ul.colu_author_c>li\"", 8, 1000);
+                   doScroll("\"ul.colu_author_c>li\"", 0, 5000);
                 }
             }
         });
@@ -102,9 +102,10 @@ public class ScrollTestActivity extends AppCompatActivity {
     }
 
 
-    public void doScroll(String elementName, int index,int delayTime) {
-        ScrollEvent scrollEvent = Event.create(Event.TYPE_SCROLL).setElementName(elementName).setDelayTime(delayTime);
-        scrollEvent
+    public void doScroll(String elementName, int index, int delayTime) {
+        ScrollEvent scrollEvent = ScrollEvent.create()
+                .setElementName(elementName)
+                .setDelayTime(delayTime)
                 .setPosition(index)
                 .setScrollTime(2000)
                 .setListener(new Response.ScrollListener() {

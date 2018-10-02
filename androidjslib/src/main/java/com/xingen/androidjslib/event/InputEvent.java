@@ -1,6 +1,10 @@
 package com.xingen.androidjslib.event;
 
+import android.webkit.WebView;
+
 import com.xingen.androidjslib.listener.Response;
+
+import java.lang.ref.SoftReference;
 
 /**
  * Author by {xinGen}
@@ -21,5 +25,26 @@ public class InputEvent extends Event{
         return this;
     }
 
+    public InputEvent setElementName(String elementName) {
+        this.elementName = elementName;
+        return  this;
+    }
+
+
+    public InputEvent setEventType(int eventType) {
+        this.eventType = eventType;
+        return  this;
+    }
+
+    public InputEvent setDelayTime(int delayTime) {
+        this.delayTime = delayTime;
+        return  this;
+    }
+
+
+
+    public static  InputEvent create(){
+        return new InputEvent().setEventType(Event.TYPE_INPUT);
+    }
 
 }

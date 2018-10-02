@@ -18,10 +18,10 @@ public class JSInjection {
 
     /**
      *  获取到指定元素的区域范围
-     *
-     * @param className
-     * @param index
-     * @return
+     * @param  sequence  序列号
+     * @param className 元素的css选择器
+     * @param index  角标
+     * @return  执行的js脚本
      */
     public static String findIndexElementAreaJS(int sequence, String className, int index) {
         LogUtils.i(" findIndexElementArea " + className);
@@ -86,11 +86,10 @@ public class JSInjection {
 
     /**
      * 滚动到指定元素，让该元素处于界面中间位置
-     *
-     * @param sequence
-     * @param elementName
-     * @param index
-     * @return
+     * @param sequence  序列号
+     * @param elementName  元素的css选择器
+     * @param index   角标
+     * @return  js 脚本
      */
     public  static String scrollElementJS(int sequence,String elementName,int index ){
        return "javascript: (function() {"
@@ -170,9 +169,10 @@ public class JSInjection {
     }
     /**
      * 往元素中设置值
-     *
-     * @param elementName
-     * @param value
+     * @param  sequence 序列号
+     * @param elementName 元素的css选择器
+     * @param value  输入的值
+     * @return  执行的js脚本
      */
     public static String inputValueJS(int sequence, String elementName, String value) {
         LogUtils.i(" inputValue " + elementName + " " + value);

@@ -41,8 +41,8 @@ public class JSBehavior {
     /**
      * 获取到页面的宽高
      *
-     * @param screenWidth
-     * @param screenHeight
+     * @param screenWidth 屏幕宽度
+     * @param screenHeight 屏幕高度
      */
     @JavascriptInterface
     public void setInnerScreenInfo(int screenWidth, int screenHeight) {
@@ -61,14 +61,14 @@ public class JSBehavior {
 
     /**
      * 获取到元素在页面上的区域
-     * @param sequence
-     * @param result
-     * @param top
-     * @param left
-     * @param width
-     * @param height
-     * @param windowWidth
-     * @param windowHeight
+     * @param sequence 序列号
+     * @param result 执行结果
+     * @param top 上边距
+     * @param left 左边距
+     * @param width 宽度
+     * @param height 高度
+     * @param windowWidth window的宽度
+     * @param windowHeight window的高度
      */
     @JavascriptInterface
     public void clickArea(int sequence, int result, int top, int left, int width, int height,int windowWidth,int windowHeight) {
@@ -81,14 +81,14 @@ public class JSBehavior {
     /**
      * 滚动到指定元素，让元素处于中间位置
      *
-     * @param sequence
-     * @param result
-     * @param start_x
-     * @param start_y
-     * @param end_x
-     * @param end_y
-     * @param windowWidth
-     * @param windowHeight
+     * @param sequence 序列号
+     * @param result   执行结果
+     * @param start_x 开始点的x坐标
+     * @param start_y 开始滚动点的y坐标
+     * @param end_x   停止滚动点的x坐标
+     * @param end_y  停止滚动点的y坐标
+     * @param windowWidth window的宽度
+     * @param windowHeight  window的高度
      */
     @JavascriptInterface
     public void scrollScreen(int sequence, int result, int start_x, int start_y, int end_x, int end_y, int windowWidth, int windowHeight) {
@@ -100,8 +100,8 @@ public class JSBehavior {
 
     /**
      * 处理点击事件
-     *
-     * @param point
+     * @param webView  执行的webview
+     * @param point down 和up事件点坐标
      */
     public static void handlerClickEvent(final WebView webView, final int[] point) {
         long downTime = SystemClock.uptimeMillis();
@@ -123,8 +123,8 @@ public class JSBehavior {
     /**
      * 处理滑动事件
      *
-     * @param scrollEvent
-     * @param point
+     * @param scrollEvent 滚动事件
+     * @param point  滚动起始点和终止点的四个坐标
      */
     public static void handlerScrollEvent(final ScrollEvent scrollEvent, final int[] point) {
         final WebView webView = scrollEvent.getView();
@@ -185,12 +185,14 @@ public class JSBehavior {
     /**
      * 1.将页面上的坐标转换成手机屏幕上的坐标
      * 2.然后在区域内选取动作点
-     *
-     * @param top
-     * @param left
-     * @param width
-     * @param height
-     * @return
+     * @param top  上边距
+     * @param left 左边距
+     * @param width 元素的宽度
+     * @param height 元素的高度
+     * @param  sScreenInnerHeight 页面高度
+     * @param  sScreenInnerWidth 页面宽度
+     * @param webView  执行的WebView
+     * @return 点的屏幕坐标
      */
     public static int[] conversionClickPoints(int top, int left, int width, int height, int sScreenInnerHeight, int sScreenInnerWidth, WebView webView) {
         //先转换成屏幕上的坐标点

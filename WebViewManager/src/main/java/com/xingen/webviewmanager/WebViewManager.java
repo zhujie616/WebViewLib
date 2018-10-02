@@ -6,9 +6,11 @@ import android.graphics.PixelFormat;
 import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
+import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 /**
@@ -20,52 +22,47 @@ import android.widget.LinearLayout;
 
 public class WebViewManager {
 
-    private LinearLayout contentLayout;
-    private WebView webView;
+    private FrameLayout contentLayout;
+
     private int mScreenWidth = 0;
-    private int mScreenHight = 0;
+    private int mScreenHeight = 0;
     private WindowManager windowManager;
     private WindowManager.LayoutParams windowParams;
+    private Context appContext;
 
     public WebViewManager() {
     }
 
-    public void init(Context context,boolean show) {
-        init(context, null,show);
-    }
-
-    public void init(Context context, WebView webView ,boolean show) {
-          calculationScreenSize(context);
-          createChild(context,webView);
-          addToWindow(context,show);
+    public void init(Context context, boolean show) {
+        this.appContext = context.getApplicationContext();
+        if (contentLayout==null){
+            calculationScreenSize(context);
+            createChild(context);
+            addToWindow(context, show);
+        }
     }
 
     /**
      * 添加到window中
      */
-    private void addToWindow(Context context,boolean show) {
+    private void addToWindow(Context context, boolean show) {
         windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         //创建window的参数
         createWindowParams(show);
-         //添加到window
-        windowManager.addView(contentLayout,windowParams);
+        //添加到window
+        windowManager.addView(contentLayout, windowParams);
     }
+
     /**
      * 创建子类控件
      */
-    private void createChild(Context context,WebView view) {
+    private void createChild(Context context) {
         /**
          * 作为window的子控件，用于装载WebView
          */
-        contentLayout=new LinearLayout(context);
+        contentLayout = new FrameLayout(context);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         contentLayout.setLayoutParams(layoutParams);
-        //若是外部传入WebView为空，则构建默认的WebView
-        webView=(view==null?WebViewBuilder.create(context):view);
-        //设置WebView的大小
-        LinearLayout.LayoutParams layoutParams2 = new LinearLayout.LayoutParams(mScreenWidth, mScreenHight);
-        webView.setLayoutParams(layoutParams2);
-        contentLayout.addView(webView);
     }
 
     /**
@@ -85,10 +82,11 @@ public class WebViewManager {
 
     /**
      * 设置window中参数
+     *
      * @param show
      */
-    private void createWindowParams(boolean show){
-        windowParams=new WindowManager.LayoutParams();
+    private void createWindowParams(boolean show) {
+        windowParams = new WindowManager.LayoutParams();
         windowParams.type = WindowManager.LayoutParams.TYPE_TOAST;
         windowParams.format = PixelFormat.RGBA_8888;
         windowParams.x = 0;
@@ -99,7 +97,7 @@ public class WebViewManager {
         windowParams.format = PixelFormat.TRANSLUCENT;
         if (show) {
             windowParams.width = mScreenWidth;
-            windowParams.height = mScreenHight;
+            windowParams.height = mScreenHeight;
             windowParams.alpha = 10;//设置透明度
         } else {//设置window大小为1px
             windowParams.width = 1;
@@ -119,42 +117,83 @@ public class WebViewManager {
         final int defaultHeight = 1920;
         final int defaultWidth = 1080;
         mScreenWidth = dm.widthPixels;
-        mScreenHight = dm.heightPixels;
+        mScreenHeight = dm.heightPixels;
         int barHight = getStatusBarHeight(context);
-        mScreenHight = mScreenHight - barHight;
+        mScreenHeight = mScreenHeight - barHight;
         if (mScreenWidth == 0) {
-            mScreenWidth = 1080;
-            mScreenHight = 1920;
+            mScreenWidth = defaultWidth;
+            mScreenHeight = defaultHeight;
         }
         //适应android tv
-        if (mScreenHight < mScreenWidth) {
-            int hight = mScreenHight;
-            mScreenHight = mScreenWidth;
+        if (mScreenHeight < mScreenWidth) {
+            int hight = mScreenHeight;
+            mScreenHeight = mScreenWidth;
             mScreenWidth = hight;
         }
     }
+
+    public WebView  addWebView(){
+       return addWebView(null);
+    }
+    /**
+     * 增加WebView
+     *
+     * @param webView
+     */
+    public WebView addWebView(WebView webView) {
+        //若是外部传入WebView为空，则构建默认的WebView
+        webView = (webView == null ? WebViewBuilder.create(appContext) : webView);
+        //设置WebView的大小
+        FrameLayout.LayoutParams layoutParams2 = new FrameLayout.LayoutParams(mScreenWidth, mScreenHeight);
+        webView.setLayoutParams(layoutParams2);
+        contentLayout.addView(webView);
+        return webView;
+    }
+
+    /**
+     * 移除某个WebView
+     *
+     * @param webView
+     */
+    public void removeWebView(WebView webView) {
+        try {
+            if (contentLayout != null && webView != null) {
+                contentLayout.removeView(webView);
+            }
+        } catch (Exception e) {
+
+        }
+    }
+
     /**
      * 销毁
      */
-    public  void quit(){
-        if (windowManager!=null&&webView!=null){
+    public void quit() {
+        if (windowManager != null) {
             try {
                 windowManager.removeViewImmediate(contentLayout);
-                contentLayout.removeView(webView);
-                webView.destroy();
-                webView=null;
-                contentLayout=null;
-            }catch (Exception e){
+                int childSize = contentLayout.getChildCount();
+                for (int i = 0; i < childSize; ++i) {
+                    View view = contentLayout.getChildAt(i);
+                    if (view instanceof WebView) {
+                        WebView webView = (WebView) view;
+                        webView.destroy();
+                    }
+                }
+                contentLayout.removeAllViews();
+                contentLayout = null;
+            } catch (Exception e) {
 
             }
         }
     }
+
     /**
-     *  构建默认的WebView
+     * 构建默认的WebView
      */
-    private static final class WebViewBuilder{
-        public static WebView create(Context context){
-            WebView webView=new WebView(context);
+    public static final class WebViewBuilder {
+        public static WebView create(Context context) {
+            WebView webView = new WebView(context);
             WebSettings webSetting = webView.getSettings();
             webSetting.setJavaScriptEnabled(true);
             webSetting.setDomStorageEnabled(true);

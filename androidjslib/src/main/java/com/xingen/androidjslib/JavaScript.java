@@ -201,22 +201,23 @@ public class JavaScript {
         /**
          * 执行js事件
          *
-         * @param event
-         * @param webView
+         * @param event 执行的事件
+         * @param webView 执行脚本的WebView
          */
         public static void executeEvent(Event event, WebView webView) {
             JavaScript.executeEvent(event, webView);
         }
         /**
-         * 是否开启日志
-         * 添加javascript对象
+         * 1. 是否开启日志
+         * 2. 添加javascript对象
          *
-         * @param webView
-         * @param hasLog
+         * @param webView 执行脚本的WebView
+         * @param hasLog 是否显示日志
          */
         public static void init(WebView webView, boolean hasLog) {
             if (webView == null) return;
             LogUtils.init(hasLog);
+            webView.getSettings().setJavaScriptEnabled(true);
             //添加JS交互对象
             webView.addJavascriptInterface(new JSBehavior(callBack), JSBehavior.JavascriptInterfaceName);
         }

@@ -1,6 +1,10 @@
 package com.xingen.androidjslib.event;
 
+import android.webkit.WebView;
+
 import com.xingen.androidjslib.listener.Response;
+
+import java.lang.ref.SoftReference;
 
 /**
  * Author by {xinGen}
@@ -28,5 +32,23 @@ public class ScrollEvent extends  Event{
     public ScrollEvent setScrollTime(int scrollTime){
         this.scrollTime=scrollTime;
         return this;
+    }
+    public ScrollEvent setElementName(String elementName) {
+        this.elementName = elementName;
+        return  this;
+    }
+    public ScrollEvent setEventType(int eventType) {
+        this.eventType = eventType;
+        return  this;
+    }
+
+    public ScrollEvent setDelayTime(int delayTime) {
+        this.delayTime = delayTime;
+        return  this;
+    }
+
+
+    public  static  ScrollEvent create(){
+        return new ScrollEvent().setEventType(Event.TYPE_SCROLL);
     }
 }

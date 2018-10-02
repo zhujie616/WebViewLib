@@ -102,37 +102,41 @@ public class InputAndClickTestActivity extends AppCompatActivity {
 
     private void doFirstJs() {
         String elementName = "\"input.se-input\"";
-        InputEvent inputEvent = Event.create(Event.TYPE_INPUT);
-        inputEvent.setElementName(elementName).setDelayTime(1000);
-        inputEvent.setValue("新根").setListener(new Response.InputListener() {
-            @Override
-            public void inputFailure(InputEvent inputEvent) {
-                String content="输入失败";
-                Toast.makeText(getApplicationContext(), content, Toast.LENGTH_SHORT).show();
-                Log.i(TAG, "  input 输入失败 ");
-            }
+        InputEvent inputEvent = InputEvent.create()
+                .setElementName(elementName)
+                .setDelayTime(1000)
+                .setValue("新根")
+                .setListener(new Response.InputListener() {
+                    @Override
+                    public void inputFailure(InputEvent inputEvent) {
+                        String content = "输入失败";
+                        Toast.makeText(getApplicationContext(), content, Toast.LENGTH_SHORT).show();
+                        Log.i(TAG, "  input 输入失败 ");
+                    }
 
-            @Override
-            public void inputSuccess(InputEvent inputEvent) {
-                Toast.makeText(getApplicationContext(), "输入成功", Toast.LENGTH_SHORT).show();
-                Log.i(TAG, " input 输入成功");
-            }
-        });
+                    @Override
+                    public void inputSuccess(InputEvent inputEvent) {
+                        Toast.makeText(getApplicationContext(), "输入成功", Toast.LENGTH_SHORT).show();
+                        Log.i(TAG, " input 输入成功");
+                    }
+                });
         JavaScript.JavaScriptBuilder.executeEvent(inputEvent, webView);
-        ClickEvent clickEvent = Event.create(Event.TYPE_CLICK).setDelayTime(5000).setElementName("\"button.se-bn\"");
-        clickEvent.setListener(new Response.ClickListener() {
-            @Override
-            public void clickFailure(ClickEvent clickEvent) {
-                Toast.makeText(getApplicationContext(), "点击失败", Toast.LENGTH_SHORT).show();
-                Log.i(TAG, "  click点击失败 ");
-            }
+        ClickEvent clickEvent = ClickEvent.create()
+                .setDelayTime(5000)
+                .setElementName("\"button.se-bn\"")
+                .setListener(new Response.ClickListener() {
+                    @Override
+                    public void clickFailure(ClickEvent clickEvent) {
+                        Toast.makeText(getApplicationContext(), "点击失败", Toast.LENGTH_SHORT).show();
+                        Log.i(TAG, "  click点击失败 ");
+                    }
 
-            @Override
-            public void clickSuccess(ClickEvent clickEvent) {
-                Toast.makeText(getApplicationContext(), "点击成功", Toast.LENGTH_SHORT).show();
-                Log.i(TAG, "  click点击成功 ");
-            }
-        });
+                    @Override
+                    public void clickSuccess(ClickEvent clickEvent) {
+                        Toast.makeText(getApplicationContext(), "点击成功", Toast.LENGTH_SHORT).show();
+                        Log.i(TAG, "  click点击成功 ");
+                    }
+                });
         JavaScript.JavaScriptBuilder.executeEvent(clickEvent, webView);
     }
 
