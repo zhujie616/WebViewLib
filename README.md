@@ -137,4 +137,9 @@ PS: JS库和WebViewManager库已经在老东家的暗地刷量项目(九点广�
         JavaScript.JavaScriptBuilder.executeEvent(scrollEvent, webView);
     }
 ```
+混淆规则：
+```
+-keep class com.xingen.androidjslib.injection.* {*;}
+```
+
 
